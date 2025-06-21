@@ -1,0 +1,4 @@
+<?jelly escape-by-default='true'?>
+<div>
+    A Jenkins plugin that can fetch Jenkins libraries from an OCI registry. Uses ORAS Java API under the hood to get artifacts from OCI registries.
+</div>

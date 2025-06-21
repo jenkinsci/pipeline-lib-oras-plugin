@@ -1,0 +1,8 @@
+unclassified:
+  globalLibraries:
+    libraries:
+      - name: "test-library"
+        retriever:
+          oras:
+            containerRef: localhost:8080/test-library
+            credentialsId: someCredentials
