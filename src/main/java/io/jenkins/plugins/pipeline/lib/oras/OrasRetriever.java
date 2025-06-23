@@ -29,6 +29,7 @@ import land.oras.ArtifactType;
 import land.oras.ContainerRef;
 import land.oras.Manifest;
 import land.oras.Registry;
+import land.oras.utils.Const;
 import org.jenkinsci.Symbol;
 import org.jenkinsci.plugins.workflow.libs.LibraryRetriever;
 import org.jenkinsci.plugins.workflow.libs.LibraryRetrieverDescriptor;
@@ -87,11 +88,16 @@ public class OrasRetriever extends LibraryRetriever {
         if (currentCredentials != null) {
             CredentialsProvider.track(item, currentCredentials);
         }
+
+        // We should support digest also here
         ContainerRef libraryRef = ContainerRef.parse(this.containerRef + ":" + version);
+
         Manifest manifest = registry.getManifest(libraryRef);
         ensureArtifactType(manifest);
 
-        String digest = manifest.getLayers().get(0).getDigest();
+        String digest = manifest.getDigest();
+        String revision = manifest.getAnnotations().getOrDefault(Const.ANNOTATION_REVISION, "unknown");
+        String source = manifest.getAnnotations().getOrDefault(Const.ANNOTATION_SOURCE, "unknown");
 
         FilePath dir = getDownloadFolder(name, run);
         Computer computer = Jenkins.get().toComputer();
@@ -104,10 +110,11 @@ public class OrasRetriever extends LibraryRetriever {
             registry.pullArtifact(libraryRef, Path.of(lease.path.getRemote()), true);
 
             LOG.trace(
-                    "Pulled library {} with version {} (digest: {}) to {}",
+                    "Pulled library {} with version {} (digest: {}) (revision: {}) to {}",
                     this.containerRef,
                     version,
                     digest,
+                    revision,
                     lease.path.getRemote());
 
             // Move vars, src and resources directories to the root of the library if needed
@@ -135,13 +142,13 @@ public class OrasRetriever extends LibraryRetriever {
             }
 
             lease.path.copyRecursiveTo(target);
-            LOG.info("Library copied to target directory: {}", target.getRemote());
+            LOG.debug("Library copied to target directory: {}", target.getRemote());
         }
 
         listener.getLogger()
                 .printf(
-                        "Using library from container %s with version %s (digest: %s)%n",
-                        this.containerRef, version, digest);
+                        "Using library from %s@%s at revision %s and source %s%n",
+                        this.containerRef, digest, revision, source);
     }
 
     @Override
