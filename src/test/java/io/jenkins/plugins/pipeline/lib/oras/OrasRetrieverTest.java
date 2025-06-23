@@ -25,7 +25,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import wiremock.org.apache.commons.io.IOUtils;
 
 @WithJenkins
-@Testcontainers
+@Testcontainers(disabledWithoutDocker = true)
 class OrasRetrieverTest {
 
     @Rule
