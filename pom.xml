@@ -38,7 +38,7 @@
     <jenkins.version>${jenkins.baseline}.3</jenkins.version>
     <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
 
-    <testcontainer.version>1.21.2</testcontainer.version>
+    <testcontainer.version>1.21.3</testcontainer.version>
 
     <spotless.check.skip>false</spotless.check.skip>
   </properties>
