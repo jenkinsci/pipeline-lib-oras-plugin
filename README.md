@@ -3,7 +3,7 @@
 [![Build Status](https://ci.jenkins.io/buildStatus/icon?job=Plugins/pipeline-lib-oras-plugin/main)](https://ci.jenkins.io/job/plugins/job/pipeline-lib-oras-plugin-plugin/)
 [![Coverage](https://ci.jenkins.io/job/Plugins/job/pipeline-lib-oras-plugin/job/main/badge/icon?status=${instructionCoverage}&subject=coverage&color=${colorInstructionCoverage})](https://ci.jenkins.io/job/Plugins/job/pipeline-lib-oras-plugin/job/main)
 [![LOC](https://ci.jenkins.io/job/Plugins/job/pipeline-lib-oras-plugin/job/main/badge/icon?job=test&status=${lineOfCode}&subject=line%20of%20code&color=blue)](https://ci.jenkins.io/job/Plugins/job/pipeline-lib-oras-plugin/job/main)
-[![Jenkins Plugin](https://img.shields.io/jenkins/plugin/v/pipeline-lib-oras-plugin.svg)](https://plugins.jenkins.io/pipeline-lib-oras-plugin/)
+[![Jenkins Plugin](https://img.shields.io/jenkins/plugin/v/pipeline-lib-oras.svg)](https://plugins.jenkins.io/pipeline-lib-oras/)
 [![GitHub release](https://img.shields.io/github/release/jenkinsci/pipeline-lib-oras-plugin.svg?label=changelog)](https://github.com/jenkinsci/pipeline-lib-oras-plugin/releases/latest)
 [![Contributors](https://img.shields.io/github/contributors/jenkinsci/pipeline-lib-oras-plugin.svg)](https://github.com/jenkinsci/pipeline-lib-oras-plugin/graphs/contributors)
 
