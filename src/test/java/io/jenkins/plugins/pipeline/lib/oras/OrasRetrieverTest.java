@@ -47,7 +47,8 @@ class OrasRetrieverTest {
         registry.pushArtifact(
                 containerRef,
                 OrasRetriever.ARTIFACT_TYPE,
-                LocalPath.of(Path.of("src/test/resources/io/jenkins/plugins/pipeline/lib/oras")));
+                LocalPath.of(Path.of("src/test/resources/io/jenkins/plugins/pipeline/lib/oras")
+                        .toAbsolutePath()));
     }
 
     @Test
