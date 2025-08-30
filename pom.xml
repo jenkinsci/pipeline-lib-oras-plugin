@@ -30,8 +30,6 @@
   </scm>
 
   <properties>
-    <!-- Until 3.66 is on parent pom https://github.com/jenkinsci/plugin-pom/pull/1156 -->
-    <hpi-plugin.version>3.66</hpi-plugin.version>
     <changelist>999999-SNAPSHOT</changelist>
     <!-- https://www.jenkins.io/doc/developer/plugin-development/choosing-jenkins-baseline/ -->
     <jenkins.baseline>2.492</jenkins.baseline>
@@ -75,7 +73,6 @@
     <dependency>
       <groupId>io.jenkins.plugins</groupId>
       <artifactId>oras-java-api</artifactId>
-      <!-- To remove when on bom -->
     </dependency>
     <dependency>
       <groupId>io.jenkins.plugins</groupId>
