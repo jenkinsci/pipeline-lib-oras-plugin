@@ -9,27 +9,25 @@ import land.oras.ContainerRef;
 import land.oras.LocalPath;
 import land.oras.Registry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.io.IOUtils;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 import org.jenkinsci.plugins.workflow.job.WorkflowRun;
 import org.jenkinsci.plugins.workflow.libs.GlobalLibraries;
 import org.jenkinsci.plugins.workflow.libs.LibraryConfiguration;
-import org.junit.Rule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
-import org.jvnet.hudson.test.LoggerRule;
+import org.jvnet.hudson.test.LogRecorder;
 import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-import wiremock.org.apache.commons.io.IOUtils;
 
 @WithJenkins
 @Testcontainers(disabledWithoutDocker = true)
 class OrasRetrieverTest {
 
-    @Rule
-    public LoggerRule logger = new LoggerRule().record("land.oras", Level.ALL);
+    private final LogRecorder logger = new LogRecorder().record("land.oras", Level.ALL);
 
     @Container
     private final ZotContainer container = new ZotContainer().withStartupAttempts(3);
