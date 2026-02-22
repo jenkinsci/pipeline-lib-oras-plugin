@@ -226,7 +226,10 @@ public class OrasRetriever extends LibraryRetriever {
         if (!Objects.equals(
                 ARTIFACT_TYPE.getMediaType(), manifest.getArtifactType().getMediaType())) {
             throw new IllegalArgumentException(
-                    "The container reference does not point to a valid pipeline manifest. Make sure to set application/vnd.jenkins.pipeline.manifest.v1+json artifact type when pushing the artifact");
+                    "The container reference does not point to a valid jenkins library manifest. Make sure to set %s artifact type when pushing the artifact. Found: %s"
+                            .formatted(
+                                    ARTIFACT_TYPE.getMediaType(),
+                                    manifest.getArtifactType().getMediaType()));
         }
     }
 
