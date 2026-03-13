@@ -39,22 +39,15 @@
     <spotless.check.skip>false</spotless.check.skip>
     <ban-junit4-imports.skip>false</ban-junit4-imports.skip>
     <ban-commons-lang-2.skip>false</ban-commons-lang-2.skip>
+    <hpi.bundledArtifacts />
   </properties>
 
   <dependencyManagement>
     <dependencies>
-      <!-- Remove when on bom -->
-      <dependency>
-        <groupId>io.jenkins.plugins</groupId>
-        <artifactId>oras-java-api</artifactId>
-        <version>0.5.0-171.v3a_b_b_986a_7890</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
       <dependency>
         <groupId>io.jenkins.tools.bom</groupId>
         <artifactId>bom-${jenkins.baseline}.x</artifactId>
-        <version>6128.v8e4ce4620a_2b_</version>
+        <version>6146.vc53a_0edb_e986</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
