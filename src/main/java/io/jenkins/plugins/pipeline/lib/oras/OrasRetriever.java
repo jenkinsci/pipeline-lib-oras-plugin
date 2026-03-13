@@ -19,6 +19,7 @@ import hudson.model.TaskListener;
 import hudson.model.TopLevelItem;
 import hudson.security.ACL;
 import hudson.slaves.WorkspaceList;
+import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -29,6 +30,7 @@ import land.oras.ArtifactType;
 import land.oras.ContainerRef;
 import land.oras.Manifest;
 import land.oras.Registry;
+import land.oras.exception.OrasException;
 import land.oras.utils.Const;
 import org.jenkinsci.Symbol;
 import org.jenkinsci.plugins.workflow.libs.LibraryRetriever;
@@ -259,6 +261,41 @@ public class OrasRetriever extends LibraryRetriever {
         @Override
         public @NonNull String getDisplayName() {
             return "Pipeline Library from ORAS";
+        }
+
+        /**
+         * Test connection to the registry
+         */
+        @POST
+        public FormValidation doTestConnection(
+                @AncestorInPath Item item,
+                @QueryParameter String scriptPath,
+                @QueryParameter String containerRef,
+                @QueryParameter boolean insecure,
+                @QueryParameter String credentialsId) {
+            if (item != null) {
+                item.checkPermission(Item.CONFIGURE);
+            } else {
+                Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+            }
+            if (containerRef == null || containerRef.trim().isEmpty()) {
+                return FormValidation.error("Reference is required");
+            }
+            try {
+                UsernamePasswordCredentials credentials = getCredentials(item, credentialsId);
+                Registry registry = buildRegistry(item, credentialsId, false);
+                ContainerRef ref = ContainerRef.parse(containerRef);
+                Manifest manifest = registry.getManifest(ref);
+                try {
+                    ensureArtifactType(manifest);
+                } catch (IllegalArgumentException e) {
+                    return FormValidation.error("Invalid artifact: " + e.getMessage());
+                }
+                return FormValidation.ok("Success! Found Artifact " + manifest.getArtifactType() + " with digest "
+                        + manifest.getDigest());
+            } catch (OrasException e) {
+                return FormValidation.error("Connection failed: " + e.getMessage());
+            }
         }
 
         @SuppressWarnings("unused")

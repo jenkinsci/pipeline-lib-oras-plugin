@@ -12,4 +12,7 @@
             <f:checkbox title="Insecure" field="insecure" description="Set insecure registry that use HTTP scheme. Use at your own risks."/>
         </f:advanced>
     </f:section>
+    <f:validateButton title="${%Test Connection}" progress="${%Testing...}"
+                      method="testConnection"
+                      with="containerRef,credentialsId,insecure"/>
 </j:jelly>
