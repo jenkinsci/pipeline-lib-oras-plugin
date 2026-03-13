@@ -7,4 +7,9 @@
     <f:entry field="credentialsId" title="Credentials">
         <c:select />
     </f:entry>
+    <f:section title="Advanced">
+        <f:advanced>
+            <f:checkbox title="Insecure" field="insecure" description="Set insecure registry that use HTTP scheme. Use at your own risks."/>
+        </f:advanced>
+    </f:section>
 </j:jelly>
