@@ -1,6 +1,8 @@
 package io.jenkins.plugins.pipeline.lib.oras;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import io.jenkins.plugins.casc.misc.ConfiguredWithCode;
 import io.jenkins.plugins.casc.misc.JenkinsConfiguredWithCodeRule;
@@ -25,5 +27,20 @@ class ConfigurationAsCodeTest {
         OrasRetriever orasRetriever = (OrasRetriever) retriever;
         assertEquals("test-library", testLibrary.getName());
         assertEquals("localhost:8080/test-library", orasRetriever.getContainerRef());
+        assertFalse(((OrasRetriever) retriever).isInsecure());
+    }
+
+    @Test
+    @ConfiguredWithCode("configuration-as-code-insecure.yml")
+    void testConfigurationAsCodeInsecure(JenkinsConfiguredWithCodeRule jenkinsRule) {
+        GlobalLibraries globalLibraries = GlobalLibraries.get();
+        List<LibraryConfiguration> libraries = globalLibraries.getLibraries();
+        assertEquals(1, libraries.size());
+        LibraryConfiguration testLibrary = libraries.get(0);
+        LibraryRetriever retriever = testLibrary.getRetriever();
+        OrasRetriever orasRetriever = (OrasRetriever) retriever;
+        assertEquals("test-library", testLibrary.getName());
+        assertEquals("localhost:8080/test-library", orasRetriever.getContainerRef());
+        assertTrue(((OrasRetriever) retriever).isInsecure());
     }
 }

@@ -62,6 +62,11 @@ public class OrasRetriever extends LibraryRetriever {
     private String credentialsId;
 
     /**
+     * Insecure flag to allow pulling from insecure registries (without TLS).
+     */
+    private boolean insecure;
+
+    /**
      * Reference to the container in which the flow is defined such as my-registry/my-container:latest
      */
     private final String containerRef;
@@ -69,6 +74,15 @@ public class OrasRetriever extends LibraryRetriever {
     @DataBoundConstructor
     public OrasRetriever(String containerRef) {
         this.containerRef = containerRef;
+    }
+
+    @DataBoundSetter
+    public void setInsecure(boolean insecure) {
+        this.insecure = insecure;
+    }
+
+    public boolean isInsecure() {
+        return insecure;
     }
 
     @Override
@@ -83,7 +97,7 @@ public class OrasRetriever extends LibraryRetriever {
 
         Item item = run.getParent();
 
-        Registry registry = buildRegistry(item, credentialsId);
+        Registry registry = buildRegistry(item, credentialsId, insecure);
         Credentials currentCredentials = getCredentials(item, this.credentialsId);
         if (currentCredentials != null) {
             CredentialsProvider.track(item, currentCredentials);
@@ -195,10 +209,13 @@ public class OrasRetriever extends LibraryRetriever {
         return System.getProperty(WorkspaceList.class.getName(), "@");
     }
 
-    private static Registry buildRegistry(Item item, String credentialsId) {
-        Registry.Builder builder = Registry.builder();
+    private static Registry buildRegistry(Item item, String credentialsId, boolean insecure) {
+        Registry.Builder builder = Registry.builder().defaults();
+        if (insecure) {
+            builder = builder.insecure();
+        }
         if (credentialsId == null || credentialsId.isEmpty()) {
-            return builder.insecure().build();
+            return builder.build();
         }
         UsernamePasswordCredentials credentials = getCredentials(item, credentialsId);
         if (credentials == null) {

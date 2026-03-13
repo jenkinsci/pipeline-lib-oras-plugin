@@ -8,7 +8,6 @@ import java.util.logging.Level;
 import land.oras.ContainerRef;
 import land.oras.LocalPath;
 import land.oras.Registry;
-import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.io.IOUtils;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
@@ -38,10 +37,6 @@ class OrasRetrieverTest {
                 .insecure(this.container.getRegistry(), "myuser", "mypass")
                 .build();
         ContainerRef containerRef = ContainerRef.parse("%s/lib:latest".formatted(this.container.getRegistry()));
-        System.out.println(TarArchiveInputStream.class
-                .getProtectionDomain()
-                .getCodeSource()
-                .getLocation());
         registry.pushArtifact(
                 containerRef,
                 OrasRetriever.ARTIFACT_TYPE,
@@ -61,6 +56,7 @@ class OrasRetrieverTest {
 
         // Create the library configuration
         OrasRetriever retriever = new OrasRetriever("%s/lib".formatted(this.container.getRegistry()));
+        retriever.setInsecure(true);
         LibraryConfiguration lib = new LibraryConfiguration("oras", retriever);
         lib.setImplicit(true);
         lib.setDefaultVersion("latest");
