@@ -29,8 +29,10 @@ import jenkins.model.Jenkins;
 import land.oras.ArtifactType;
 import land.oras.ContainerRef;
 import land.oras.Manifest;
+import land.oras.OCI;
 import land.oras.Registry;
 import land.oras.exception.OrasException;
+import land.oras.policy.ContainersPolicy;
 import land.oras.utils.Const;
 import org.jenkinsci.Symbol;
 import org.jenkinsci.plugins.workflow.libs.LibraryRetriever;
@@ -123,7 +125,7 @@ public class OrasRetriever extends LibraryRetriever {
 
         try (WorkspaceList.Lease lease = computer.getWorkspaceList().allocate(dir)) {
 
-            registry.pullArtifact(libraryRef, Path.of(lease.path.getRemote()), true);
+            registry.pullArtifact(libraryRef, Path.of(lease.path.getRemote()), OCI.PullOptions.overwrite());
 
             LOG.trace(
                     "Pulled library {} with version {} (digest: {}) (revision: {}) to {}",
@@ -212,7 +214,8 @@ public class OrasRetriever extends LibraryRetriever {
     }
 
     private static Registry buildRegistry(Item item, String credentialsId, boolean insecure) {
-        Registry.Builder builder = Registry.builder().defaults();
+        Registry.Builder builder =
+                Registry.builder().withPolicy(ContainersPolicy.newPolicy()).defaults();
         if (insecure) {
             builder = builder.insecure();
         }
