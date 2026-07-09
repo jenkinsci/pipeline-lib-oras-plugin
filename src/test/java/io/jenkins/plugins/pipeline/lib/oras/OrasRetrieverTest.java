@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import land.oras.ContainerRef;
 import land.oras.LocalPath;
+import land.oras.OCI;
 import land.oras.Registry;
 import org.apache.commons.io.IOUtils;
 import org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition;
@@ -40,6 +41,7 @@ class OrasRetrieverTest {
         registry.pushArtifact(
                 containerRef,
                 OrasRetriever.ARTIFACT_TYPE,
+                OCI.PushOptions.defaults(),
                 LocalPath.of(Path.of("src/test/resources/io/jenkins/plugins/pipeline/lib/oras")
                         .toAbsolutePath()));
     }
