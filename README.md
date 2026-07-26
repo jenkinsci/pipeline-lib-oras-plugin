@@ -9,7 +9,7 @@
 This plugin allow to fetch jenkins libraries stored into an OCI compliant registry (ORAS).
 
 > [!WARNING]
-> The ORAS Java SDK is currently in **alpha** state and might impact the stability of this plugin.
+> The ORAS Java SDK is currently in **beta** state and might impact the stability of this plugin.
 >
 > It's configuration and APIs might change in future releases
 
